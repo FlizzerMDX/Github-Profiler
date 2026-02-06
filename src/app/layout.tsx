@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+
+import { SessionProvider } from "@/components/auth/session-provider";
+
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import { auth } from "@/services/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,21 +23,24 @@ export const metadata: Metadata = {
   description: "Your solution to get you generated Readme GitHub Profil!",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const session = await auth();
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen flex flex-col dark`}
       >
-        <Header/>
-        <main className="m-auto">
-          {children}
-        </main>
-        <Footer/>
+        <SessionProvider session={session}>
+          <main className="m-auto">
+            {children}
+          </main>
+        </SessionProvider>
       </body>
     </html>
   );
