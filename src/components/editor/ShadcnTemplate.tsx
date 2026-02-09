@@ -1392,11 +1392,18 @@ function EditorContent({
   const methods = useMemo<ShadcnTemplateRef>(
     () => ({
       injectMarkdown: (content: string) => {
-        if (editor) {
-          editor.update(() => {
-            commandsRef.current.importFromMarkdown(content, { immediate: true });
-          });
-        }
+        // if (editor) {
+        //   editor.update(() => {
+        //     commandsRef.current.importFromMarkdown(content, { immediate: true });
+        //   });
+        // }
+        setTimeout(() => {
+          if (editor) {
+            editor.update(() => {
+              commandsRef.current.importFromMarkdown(content, { immediate: true });
+            });
+          }
+        }, 50); // Small delay to ensure editor is ready
       },
       injectHTML: (content: string) => {
         if (editor) {
