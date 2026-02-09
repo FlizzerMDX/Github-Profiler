@@ -1,9 +1,8 @@
+"use client";
+
 import { ShadcnTemplate } from './index'
 
-export function Editor() {
-  const markdown = `# Hello World
-  
-  This is a [link](https://midicix.vercel.app)`;
+export function Editor({markdown, ref}: {markdown: string, ref: any}) {
   return (
     <ShadcnTemplate
       onReady={(editor) => {
@@ -15,6 +14,7 @@ export function Editor() {
         // editor.injectMarkdown("[test](https://midicix.vercel.app)")
         // console.log(editor.getMarkdown());
       }}
+      ref={ref}
     />
   )
 }
