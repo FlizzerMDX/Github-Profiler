@@ -8,21 +8,21 @@ import { SignOut } from "../auth/signout";
 import { User } from "@/types";
 import Image from "next/image";
 
-import GHProfilerIconLight from '../../../public/ghprofiler-light.webp'
-import GHProfilerIconDark from '../../../public/ghprofiler-dark.webp'
+import MoonarrIconLight from '../../../public/moonarr-light.webp'
+import MoonarrIconDark from '../../../public/moonarr-dark.webp'
 
 const Header = ({ user }: {user: User }) =>{
     return (
         <header className="border-b border-white flex justify-between items-center gap-4 mx-6 px-2 text-xl min-h-20 p-4 z-30">
             <Link href={"/"} className="content-center text-white hover:text-hover flex gap-2">
                 <Image
-                src={GHProfilerIconDark.src}
+                src={MoonarrIconDark.src}
                 width={30}
                 height={30}
-                alt="GHProfiler Icon"
+                alt="Moonarr Icon"
                 />
                 <span>
-                    GHProfiler
+                    Moonarr
                 </span>
             </Link>
             <nav>

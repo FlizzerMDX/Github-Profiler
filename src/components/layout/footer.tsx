@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
     return (
         <footer className="border-t border-white flex justify-center items-center gap-4 text-xl mx-6 px-2 m-2 min-h-10 z-[19]">
             <div>
-                <Link href={`https://github.com/flizzermdx/ghprofiler`} target="_blank" className="hover:text-hover">
+                <Link href={`https://github.com/flizzermdx/moonarr`} target="_blank" className="hover:text-hover">
                     <Github />
                 </Link>
             </div>
@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
                     FlizzerMDX
                 </Link>
             </span>
-            <Link href={`https://github.com/flizzermdx/ghprofiler/releases/tag/v${packageConfig.version}`} target="_blank" className="hover:text-hover">
+            <Link href={`https://github.com/flizzermdx/moonarr/releases/tag/v${packageConfig.version}`} target="_blank" className="hover:text-hover">
                 v{packageConfig.version}
             </Link>
         </footer>

@@ -9,8 +9,8 @@ import Footer from "@/components/layout/footer";
 import { auth } from "@/services/auth";
 import { Toaster } from "@/components/ui/sonner";
 
-import GHProfilerIconLight from '../../public/ghprofiler-light.webp'
-import GHProfilerIconDark from '../../public/ghprofiler-dark.webp'
+import MoonarrIconLight from '../../public/moonarr-light.webp'
+import MoonarrIconDark from '../../public/moonarr-dark.webp'
 
 // Vercel
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -28,9 +28,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GHProfiler",
+  title: "Moonarr",
   description: "Your solution to get you generated Readme GitHub Profil!",
-  icons: GHProfilerIconDark.src
+  icons: MoonarrIconDark.src
 };
 
 export default async function RootLayout({

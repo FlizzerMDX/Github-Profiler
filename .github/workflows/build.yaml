@@ -8,7 +8,7 @@ on:
             - main
 
 env:
-    APP_NAME: "ghprofiler"
+    APP_NAME: "moonarr"
     ORGANIZATION: "flizzermdx"
 
 jobs:
@@ -124,7 +124,7 @@ jobs:
               run: |
                   echo "✅ Image pushed to Docker"
                   echo "Tag: ${{ steps.set_tag.outputs.tag }}"
-                  echo "Full image: ${{ env.DOCKER_ORGANIZATION }}/${{ env.APP_NAME }}:${{ steps.set_tag.outputs.tag }}"
+                  echo "Full image: ${{ env.ORGANIZATION }}/${{ env.APP_NAME }}:${{ steps.set_tag.outputs.tag }}"
 
     create-release:
         name: Create Release
