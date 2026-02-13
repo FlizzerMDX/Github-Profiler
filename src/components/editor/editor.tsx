@@ -12,6 +12,7 @@ export function Editor({markdown, ref}: {markdown?: string, ref: Ref<ShadcnTempl
         }
       }}
       ref={ref}
+      className='bg-[#0d1117]'
     />
   )
 }

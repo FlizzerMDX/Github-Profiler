@@ -7,11 +7,15 @@ import { getReadmeContent, getReadmeRepo } from '@/services/github';
 
 import { User, Session } from '@/types/index';
 import { ShadcnTemplateRef } from '@/components/editor';
+import { EmptyProject } from '@/components/editor/empty-project';
+import { EditorSkeleton } from '@/components/editor/editor-skeleton';
 
 const Edit: NextPage = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState<User>(session?.user as User);
   const [username, setUsername] = useState<string>(user?.username);
+  const [markdown, setMarkdown] = useState<string>("");
+  const [endCall, setEndCall] = useState<boolean>(false);
 
   const editorRef = useRef<ShadcnTemplateRef>(null);
 
@@ -21,9 +25,11 @@ const Edit: NextPage = () => {
       const repo = await getReadmeRepo(username, userSession?.accessToken);
       if (repo?.data){
         const data = await getReadmeContent(username, userSession?.accessToken);
-        const markdown = data?.success ? data?.content : "";
-        editorRef?.current?.injectMarkdown(markdown);
+        const md = data?.success ? data?.content : "";
+        editorRef?.current?.injectMarkdown(md);
+        setMarkdown(md);
       }
+      setEndCall(true);
     };
     call();
   }, [])
@@ -32,7 +38,13 @@ const Edit: NextPage = () => {
     <div>
         {
             session && session.user ?
-                <Editor ref={editorRef}/>
+                endCall ?
+                  markdown ?
+                    <Editor ref={editorRef}/>
+                    :
+                    <EmptyProject user={user}/>
+                  :
+                  <EditorSkeleton/>
                 :
                 <span>You need to be authenticated to watch this page</span>
         }
