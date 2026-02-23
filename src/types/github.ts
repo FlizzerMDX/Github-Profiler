@@ -3,3 +3,7 @@ export interface GithubApiCallSetting{
     url?: string,
     params?: object,
 }
+
+export interface GithubApiCallReturn{
+    sha?: string,
+}

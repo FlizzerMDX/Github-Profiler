@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { downloadEditingFile } from "@/services/download"
+import { pushReadmeToGithub } from "@/services/github"
 import { Session, User } from "@/types"
 import {
   ChevronDownIcon,
@@ -23,11 +24,12 @@ export function SaveButton({editorRef}: {editorRef: any}) {
 
   const { data: session } = useSession();
   const [user, setUser] = useState<User>(session?.user as User);
+  const [username, setUsername] = useState<string>(user.username);
   const [token, setToken] = useState<string>((session as Session)?.accessToken);
 
   return (
     <ButtonGroup>
-      <Button variant="outline" onClick={() => console.log("push file")}>
+      <Button variant="outline" onClick={() => {pushReadmeToGithub({markdown: editorRef.exportToMarkdown(), user, token})}}>
         <ShareIcon />
         Upload to GitHub
       </Button>

@@ -9,6 +9,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         GithubProvider({
             clientId: process.env.AUTH_GITHUB_CLIENT_ID as string,
             clientSecret: process.env.AUTH_GITHUB_CLIENT_SECRET as string,
+            authorization: { params: { scope: 'user:email repo' } }
         }),
     ],
     callbacks: {
