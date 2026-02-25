@@ -38,7 +38,7 @@ import {
 } from "@lexkit/editor";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { LexicalEditor } from "lexical";
+import { $getSelection, LexicalEditor } from "lexical";
 import { Bold, Italic, Underline, Strikethrough, List, ListOrdered, Undo, Redo, Image as ImageIcon, AlignLeft, AlignCenter, AlignRight, Upload, Link as LinkIcon, Unlink, Minus, Code, Table as TableIcon, FileCode, Eye, Command as CommandIcon, Type, Quote, FileText, Hash, X, CloudUpload, Globe, ChevronDown, Indent, Outdent } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
@@ -76,6 +76,7 @@ type TableConfig = {
 export interface ShadcnTemplateRef {
   injectMarkdown: (content: string) => void;
   injectHTML: (content: string) => void;
+  addMarkdown: (content: string) => void;
   getMarkdown: () => string;
   getHTML: () => string;
 }
@@ -1328,7 +1329,7 @@ function HTMLSourceView({
 }) {
   return (
     <Textarea
-      className={shadcnTheme.sourceView?.textarea || "w-full h-full min-h-[600px] p-4 bg-background border-none rounded-none font-mono text-sm resize-none focus:outline-none focus:ring-0"}
+      className={shadcnTheme.sourceView?.textarea || "w-full h-full min-h-150 p-4 bg-background border-none rounded-none font-mono text-sm focus:outline-none focus:ring-0"}
       value={htmlContent}
       onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onHtmlChange(e.target.value)}
       placeholder="Enter HTML content..."
@@ -1347,7 +1348,7 @@ function MarkdownSourceView({
 }) {
   return (
     <Textarea
-      className={shadcnTheme.sourceView?.textarea || "w-full h-full min-h-[600px] p-4 bg-background border-none rounded-none font-mono text-sm resize-none focus:outline-none focus:ring-0"}
+      className={shadcnTheme.sourceView?.textarea || "w-full h-full p-4 bg-background border-none rounded-none font-mono text-sm focus:outline-none focus:ring-0"}
       value={markdownContent}
       onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onMarkdownChange(e.target.value)}
       placeholder="Enter Markdown content..."
@@ -1396,6 +1397,16 @@ function EditorContent({
         if (editor) {
           editor.update(() => {
             commandsRef.current.importFromMarkdown(content, { immediate: true });
+          });
+        }
+      },
+      addMarkdown: (content: string) => {
+        if (editor) {
+          editor.update(() => {
+            const selection = $getSelection();
+            if (selection) {
+              selection.insertText(content);
+            }
           });
         }
       },
@@ -1501,7 +1512,7 @@ function EditorContent({
   const handleMarkdownChange = (markdown: string) => setContent((prev) => ({ ...prev, markdown }));
 
   return (
-    <div className="flex flex-col min-h-[500px] border border-gray-500 rounded-3xl w-4xl">
+    <div className="flex flex-col border border-gray-500 rounded-3xl w-4xl bg-[#0d1117]">
       {/* Mode Tabs at top */}
       {/* <div className="px-4 py-3 border-b border-border"> */}
       <div className="px-4 py-3 border-b border-border flex justify-between">
@@ -1528,7 +1539,7 @@ function EditorContent({
       <div className="relative ">
         {/* Editor Content - Always render RichText but control visibility */}
         <div 
-          className="min-h-[600px] prose prose-lg max-w-none p-4"
+          className="min-h-165 prose prose-lg max-w-none p-4 overflow-x-hidden overflow-y-auto max-h-165"
           style={{ display: mode === "visual" ? "block" : "none" }}
         >
           <RichTextPlugin
@@ -1547,10 +1558,12 @@ function EditorContent({
         )}
 
         {mode === "markdown" && (
-          <MarkdownSourceView
-            markdownContent={content.markdown}
-            onMarkdownChange={handleMarkdownChange}
-          />
+          <div className="min-h-184.25">
+            <MarkdownSourceView
+              markdownContent={content.markdown}
+              onMarkdownChange={handleMarkdownChange}
+            />
+          </div>
         )}
       </div>
 
@@ -1644,6 +1657,7 @@ export const ShadcnTemplate = forwardRef<ShadcnTemplateRef, ShadcnTemplateProps>
       () => ({
         injectMarkdown: (content: string) => editorMethods?.injectMarkdown(content),
         injectHTML: (content: string) => editorMethods?.injectHTML(content),
+        addMarkdown: (content: string) => editorMethods?.addMarkdown(content),
         getMarkdown: () => editorMethods?.getMarkdown() || "",
         getHTML: () => editorMethods?.getHTML() || "",
       }),

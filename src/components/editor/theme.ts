@@ -7,9 +7,9 @@ export const shadcnTheme: LexKitTheme = {
   },
 
   // Editor content styles (Lexical EditorThemeClasses)
-  editor: "min-h-[400px] p-4 focus:outline-none relative",
+  editor: "min-h-[400px] p-4 focus:outline-none relative overflow-x-hidden overflow-y-auto",
   contentEditable:
-    "outline-none text-xl leading-relaxed text-foreground font-system min-h-[600px] focus:outline-none",
+    "outline-none text-xl leading-relaxed text-foreground font-system focus:outline-none",
 
   // Placeholder styling - absolute positioned in relative container
   placeholder: "absolute top-4 left-4 text-xl leading-relaxed select-none text-muted-foreground pointer-events-none z-0",
@@ -91,7 +91,7 @@ export const shadcnTheme: LexKitTheme = {
     preview: "p-4",
     editor: "p-4 border-t border-border bg-muted/50",
     textarea:
-      "w-full h-32 p-3 bg-background border border-input rounded-md font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent",
+      "w-full h-32 p-3 bg-background border border-input rounded-md font-mono text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent",
     toggle:
       "mt-3 px-3 py-1.5 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors",
     content: "prose prose-sm max-w-none dark:prose-invert",
@@ -137,6 +137,6 @@ export const shadcnTheme: LexKitTheme = {
 
   // Source view styling - for HTML/Markdown textareas
   sourceView: {
-    textarea: "w-full h-full min-h-[600px] p-4 bg-background border-none rounded-none font-mono text-sm resize-none focus:outline-none focus:ring-0",
+    textarea: "w-full h-full min-h-184.25 p-4 bg-background border-none rounded-none font-mono text-sm focus:outline-none focus:ring-0 overflow-x-hidden overflow-y-auto max-h-184.25",
   },
 };

@@ -38,7 +38,7 @@ const Edit: NextPage = () => {
   }, [])
 
   return (
-    <div>
+    <>
         {/* {
             session && session.user ?
                 // endCall ?
@@ -64,7 +64,7 @@ const Edit: NextPage = () => {
               :
               <span>You need to be authenticated to watch this page</span>
         }
-    </div>
+    </>
   )
 }
 

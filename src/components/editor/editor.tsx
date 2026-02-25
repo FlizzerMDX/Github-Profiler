@@ -3,6 +3,7 @@
 import { RefObject, useEffect, useState } from 'react';
 import { ShadcnTemplate, ShadcnTemplateRef } from './index'
 import { getReadmeContent } from '@/services/github';
+import { EmojiPicker } from './emoji-picker';
 
 export function Editor({markdown, ref, session }: {markdown?: string, ref?: RefObject<ShadcnTemplateRef | null>, session?: any}) {
   useEffect(()=>{
@@ -15,14 +16,18 @@ export function Editor({markdown, ref, session }: {markdown?: string, ref?: RefO
   }, [])
 
   return (
-    <ShadcnTemplate
-      onReady={(editor) => {
-        if (markdown){
-          editor.injectMarkdown(markdown);
-        }
-      }}
-      ref={ref}
-      className='bg-[#0d1117]'
-    />
+    <div className='flex flex-row w-full'>
+      <EmojiPicker className='size-96' editorRef={ref}/>
+      <ShadcnTemplate
+        onReady={(editor) => {
+          if (markdown){
+            editor.injectMarkdown(markdown);
+          }
+        }}
+        ref={ref}
+        className='justify-items-center'
+      />
+      <div className='size-96'>s</div>
+    </div>
   )
 }
