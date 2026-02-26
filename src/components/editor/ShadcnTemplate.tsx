@@ -431,11 +431,12 @@ function ImageDialog({
 
         <div className="space-y-4">
           <Tabs value={activeTab} onValueChange={(value: string) => setActiveTab(value as "upload" | "url")}>
-            <TabsList className="grid w-full grid-cols-2">
+            {/* <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="upload" className="flex items-center gap-2">
                 <Upload className="h-4 w-4" />
                 Upload
-              </TabsTrigger>
+              </TabsTrigger> */}
+            <TabsList className="w-full">
               <TabsTrigger value="url" className="flex items-center gap-2">
                 <Globe className="h-4 w-4" />
                 URL
