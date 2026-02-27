@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { toast } from "sonner"
 import { downloadEditingFile } from "@/services/download"
-import { pushReadmeToGithub } from "@/services/github"
+import { getReadmeContent, pushReadmeToGithub } from "@/services/github"
 import { Session, User } from "@/types"
 import {
   ChevronDownIcon,
@@ -19,7 +19,7 @@ import {
   ShareIcon,
 } from "lucide-react"
 import { useSession } from "next-auth/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { OctokitResponse } from "@octokit/types";
 
 export function SaveButton({editorRef}: {editorRef: any}) {
@@ -30,10 +30,22 @@ export function SaveButton({editorRef}: {editorRef: any}) {
   const [token, setToken] = useState<string>((session as Session)?.accessToken);
   const [isPushing, setIsPushing] = useState<boolean>(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+  const [readMe, setReadMe] = useState<{ success: boolean; content: string; }>();
+
+  useEffect(() =>{
+    const call = async() =>{
+      setReadMe(await getReadmeContent(user.username, token));
+    };
+    call();
+  }, []);
 
   return (
     <ButtonGroup>
-      <Button variant="outline" disabled={isPushing} onClick={() => {
+      <Button variant="outline" disabled={isPushing || readMe?.content.replaceAll("\n", "") === editorRef.exportToMarkdown().replaceAll("\n", "")} onClick={() => {
+          if (readMe?.content.replaceAll("\n", "") === editorRef.exportToMarkdown().replaceAll("\n", "")){
+            toast.info("There is no changes to push");
+            return;
+          }
           setIsPushing(true);
           toast.promise<{ data: OctokitResponse<any, number> | undefined }>(
             () =>
@@ -47,7 +59,6 @@ export function SaveButton({editorRef}: {editorRef: any}) {
               error: "Error",
             }
           )
-          // pushReadmeToGithub({markdown: editorRef.exportToMarkdown(), user, token})
         }}>
         <ShareIcon />
         Upload to GitHub
