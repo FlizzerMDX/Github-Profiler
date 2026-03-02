@@ -1,0 +1,29 @@
+modules:
+  - key: stats
+    name: ReadMe stats
+    description: ReadMe stats
+    repo: https://github.com/tuhinpal/readme-stats-github
+    link: https://github-stats-alpha.vercel.app/api
+    tags:
+      - stats
+    params:
+      - key: username
+        name: username
+        description: username
+        required: true
+      - key: cc
+        name: Card Color
+        description: Color of the card (in hexadecimal)
+        required: false
+      - key: tc
+        name: Text Color
+        description: Color of the text (in hexadecimal)
+        required: false
+      - key: ic
+        name: Icon Color
+        description: Color of the icon (in hexadecimal)
+        required: false
+      - key: bc
+        name: Border Color
+        description: Color of the border (in hexadecimal)
+        required: false

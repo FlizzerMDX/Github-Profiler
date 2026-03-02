@@ -6,6 +6,7 @@ import { getReadmeContent } from '@/services/github';
 import { EmojiPicker } from './emoji-picker';
 import { EditorSkeleton } from './editor-skeleton';
 import { Button } from '../ui/button';
+import MarketPlace from './marketplace';
 
 export function Editor({markdown, ref, session, hidden, repo}: {markdown?: string, ref?: RefObject<ShadcnTemplateRef | null>, session?: any, hidden?: boolean, repo?: object | undefined}) {
   useEffect(()=>{
@@ -33,7 +34,7 @@ export function Editor({markdown, ref, session, hidden, repo}: {markdown?: strin
           className='justify-items-center'
         />
 
-        <div className='size-96'>Marketplace - Coming soon</div>
+        <MarketPlace className={'size-96'} />
       </div>
 
       <div hidden={!hidden}>

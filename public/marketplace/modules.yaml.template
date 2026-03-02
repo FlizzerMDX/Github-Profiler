@@ -1,0 +1,17 @@
+modules:
+  - key: <id>
+    name: <Display Name>
+    repo: <git repository link (for credits or read documentation usage)>
+    link: <api link to get image, without parameters>
+    tags:
+      - stats
+      - stars
+      ...
+    params:
+      - key: <key of the parameter, to put inside the link>
+        type: <variable type>
+        name: <display name>
+        description: <description of parameters>
+        required: <true or false>
+      - key: <key of the parameter, to put inside the link>
+        ...
