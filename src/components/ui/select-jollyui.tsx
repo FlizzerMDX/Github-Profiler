@@ -18,14 +18,14 @@ import {
 
 import { cn } from "@/lib/utils"
 
-import { FieldError, Label } from "./field"
+import { FieldError, Label } from "./field-jollyui"
 import {
   ListBoxCollection,
   ListBoxHeader,
   ListBoxItem,
   ListBoxSection,
 } from "./list-box"
-import { Popover } from "./popover"
+import { Popover } from "./popover-jollyui"
 
 const Select = AriaSelect
 

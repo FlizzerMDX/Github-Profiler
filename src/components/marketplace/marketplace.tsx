@@ -2,10 +2,16 @@ import { getModules } from "@/services/marketplace";
 import { User } from "@/types";
 import { Modules } from "@/types/modules";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import ComponantColorPicker from "../marketplace/color-picker";
+import { RefObject, useEffect, useState } from "react";
+import EditableModule, { ParamComponent } from "./EditableModule";
+import { Button } from "../ui/button";
+import { ShadcnTemplateRef } from "../editor";
+import { renderToString } from 'react-dom/server'
+import { Input } from "../ui/input";
 
-const MarketPlace = ({...props}) =>{
+// const MarketPlace = ({...props}: React.ComponentProps<"div">) =>{
+// const MarketPlace = ({editorRef, ...props}: {editorRef?: RefObject<ShadcnTemplateRef | null>, props: React.ComponentProps<"div"> }) =>{
+const MarketPlace = ({editorRef, className}: {editorRef?: RefObject<ShadcnTemplateRef | null>, className: string }) =>{
 
     const { data: session } = useSession();
     const [user, setUser] = useState<User>(session?.user as User);
@@ -20,7 +26,8 @@ const MarketPlace = ({...props}) =>{
     }, []);
 
     return(
-        <div {...props}>
+        // <div {...props}>
+        <div className={className}>
             MarketPlace - Coming Soon
             {modules?.modules?.map(
                 (module) => {
@@ -29,11 +36,7 @@ const MarketPlace = ({...props}) =>{
                             <span>
                                 {module?.name}
                             </span>
-                            <img
-                                alt={module?.description}
-                                src={`${module?.link}?${module.params[0].key}=${user.username}`}
-                            />
-                            <ComponantColorPicker/>
+                            <EditableModule editorRef={editorRef} module={module} user={user}/>
                         </div>
                     )
                 })}

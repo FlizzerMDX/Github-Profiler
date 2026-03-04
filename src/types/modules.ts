@@ -1,4 +1,4 @@
-interface Module{
+export interface Module{
     key: string,
     name: string,
     description: string,
@@ -8,10 +8,11 @@ interface Module{
     params: Params[],
 }
 
-interface Params{
+export interface Params{
     key: string,
     name: string,
     description: string,
+    type: string,
     required: boolean,
 }
 

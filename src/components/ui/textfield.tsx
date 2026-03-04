@@ -15,7 +15,7 @@ import {
 
 import { cn } from "@/lib/utils"
 
-import { FieldError, Label } from "./field"
+import { FieldError, Label } from "./field-jollyui"
 
 const TextField = AriaTextField
 

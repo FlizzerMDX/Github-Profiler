@@ -10,20 +10,25 @@ modules:
       - key: username
         name: username
         description: username
+        type: string
         required: true
       - key: cc
         name: Card Color
         description: Color of the card (in hexadecimal)
+        type: color
         required: false
       - key: tc
         name: Text Color
         description: Color of the text (in hexadecimal)
+        type: color
         required: false
       - key: ic
         name: Icon Color
         description: Color of the icon (in hexadecimal)
+        type: color
         required: false
       - key: bc
         name: Border Color
         description: Color of the border (in hexadecimal)
+        type: color
         required: false

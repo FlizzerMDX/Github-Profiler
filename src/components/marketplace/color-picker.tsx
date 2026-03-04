@@ -1,15 +1,16 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { Dispatch, SetStateAction, useState } from "react"
 import { Pipette } from "lucide-react"
 import {
+  Color,
   ColorPickerStateContext,
   getColorChannels,
   parseColor,
   type ColorSpace,
 } from "react-aria-components"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button-jellyui"
 import {
   ColorArea,
   ColorField,
@@ -21,9 +22,8 @@ import {
   ColorThumb,
   SliderTrack,
 } from "@/components/ui/color"
-import { Dialog, DialogTrigger } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Popover } from "@/components/ui/popover"
+import { Dialog, DialogTrigger } from "@/components/ui/dialog-jollyui"
+import { Popover } from "@/components/ui/popover-jollyui"
 import {
   Select,
   SelectItem,
@@ -62,8 +62,7 @@ function EyeDropperButton() {
   )
 }
 
-export function ComponantColorPicker() {
-  let [color, setColor] = useState(parseColor("hsl(60, 100%, 50%)"))
+export function ComponantColorPicker({label, color, setColor}: {label?: string, color: Color | undefined, setColor: Dispatch<SetStateAction<Color | undefined>>}) {
   let [space, setSpace] = useState<string>("hex")
 
   return (
@@ -71,7 +70,7 @@ export function ComponantColorPicker() {
       <DialogTrigger>
         <Button variant="ghost" className="flex h-fit items-center gap-2 p-1">
           <ColorSwatch className="size-8 rounded-md border-2" />
-          Fill Color
+          {label}
         </Button>
         <Popover placement="bottom start" className="w-fit">
           <Dialog className="flex flex-col gap-4 p-3 outline-none">
@@ -118,15 +117,15 @@ export function ComponantColorPicker() {
             <div className="w-[192px] flex flex-row gap-1">
               {
                 space != "hex" ? 
-                    getColorChannels(space).map((channel) => (
-                      <ColorField colorSpace={space as ColorSpace} channel={channel} key={channel}>
-                          <Input aria-label={channel.toString()} />
-                      </ColorField>
-                    ))
-                    :
-                      <ColorField colorSpace="hsb" className="w-[192px]">
-                        <Input className="" />
-                      </ColorField>
+                  getColorChannels(space as ColorSpace).map((channel) => (
+                    <ColorField colorSpace={space as ColorSpace} channel={channel} key={channel}>
+                      <Input aria-label={channel.toString()} />
+                    </ColorField>
+                  ))
+                  :
+                    <ColorField colorSpace="hsb" className="w-[192px]">
+                      <Input className="" />
+                    </ColorField>
               }
             </div>
 

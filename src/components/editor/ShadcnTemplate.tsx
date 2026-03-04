@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef, forwardRef, useCallback, useImperativeHandle } from "react";
 import { createPortal } from "react-dom";
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
 import {
   // Core system
   createEditorSystem,
@@ -38,7 +39,7 @@ import {
 } from "@lexkit/editor";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { $getSelection, LexicalEditor } from "lexical";
+import { $getRoot, $getSelection, LexicalEditor, $createParagraphNode } from "lexical";
 import { Bold, Italic, Underline, Strikethrough, List, ListOrdered, Undo, Redo, Image as ImageIcon, AlignLeft, AlignCenter, AlignRight, Upload, Link as LinkIcon, Unlink, Minus, Code, Table as TableIcon, FileCode, Eye, Command as CommandIcon, Type, Quote, FileText, Hash, X, CloudUpload, Globe, ChevronDown, Indent, Outdent } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
@@ -77,6 +78,7 @@ export interface ShadcnTemplateRef {
   injectMarkdown: (content: string) => void;
   injectHTML: (content: string) => void;
   addMarkdown: (content: string) => void;
+  addHTML: (content: string) => void;
   getMarkdown: () => string;
   getHTML: () => string;
 }
@@ -174,7 +176,10 @@ export const extensions = [
   tableExt,
   listExtension,
   historyExtension,
-  imageExtension,
+  imageExtension.configure({
+    defaultAlignment: "center",
+    resizable: false,
+  }),
   blockFormatExtension,
   htmlExtension,
   markdownExt,
@@ -1411,6 +1416,40 @@ function EditorContent({
           });
         }
       },
+      addHTML: (html: string) => {
+        if (editor) {
+          editor.update(() => {
+            // const selection = $getSelection();
+            // if (selection) {
+            //   selection.insertText(html);
+            // }
+            commandsRef.current.importFromHTML(commandsRef.current.exportToHTML() + html)
+            const root = $getRoot();
+
+            if (html.trim()) {
+              // Parse HTML properly to avoid wrapper issues
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, "text/html");
+
+              // Generate nodes from the body to avoid extra wrappers
+              const nodes = $generateNodesFromDOM(editor, doc);
+
+              // Insert nodes directly to root
+              if (nodes && nodes.length > 0) {
+                nodes.forEach((node: any) => {
+                  if (node) {
+                    root.append(node);
+                  }
+                });
+              } else {
+                root.append($createParagraphNode());
+              }
+            } else {
+              root.append($createParagraphNode());
+            }
+          });
+        }
+      },
       injectHTML: (content: string) => {
         if (editor) {
           editor.update(() => {
@@ -1637,7 +1676,7 @@ export const ShadcnTemplate = forwardRef<ShadcnTemplateRef, ShadcnTemplateProps>
           return objectUrl;
         },
         defaultAlignment: "center",
-        resizable: true,
+        resizable: false,
         pasteListener: { insert: true, replace: true },
         debug: false,
       });
@@ -1659,6 +1698,7 @@ export const ShadcnTemplate = forwardRef<ShadcnTemplateRef, ShadcnTemplateProps>
         injectMarkdown: (content: string) => editorMethods?.injectMarkdown(content),
         injectHTML: (content: string) => editorMethods?.injectHTML(content),
         addMarkdown: (content: string) => editorMethods?.addMarkdown(content),
+        addHTML: (content: string) => editorMethods?.addHTML(content),
         getMarkdown: () => editorMethods?.getMarkdown() || "",
         getHTML: () => editorMethods?.getHTML() || "",
       }),
