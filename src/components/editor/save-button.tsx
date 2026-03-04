@@ -26,7 +26,7 @@ export function SaveButton({editorRef}: {editorRef: any}) {
 
   const { data: session } = useSession();
   const [user, setUser] = useState<User>(session?.user as User);
-  const [username, setUsername] = useState<string>(user.username);
+  const [username, setUsername] = useState<string>(user?.username);
   const [token, setToken] = useState<string>((session as Session)?.accessToken);
   const [isPushing, setIsPushing] = useState<boolean>(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
@@ -34,7 +34,7 @@ export function SaveButton({editorRef}: {editorRef: any}) {
 
   useEffect(() =>{
     const call = async() =>{
-      setReadMe(await getReadmeContent(user.username, token));
+      setReadMe(await getReadmeContent(user?.username, token));
     };
     call();
   }, []);

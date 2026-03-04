@@ -33,7 +33,11 @@ const Edit: NextPage = () => {
 
   return (
     <>
-        <Editor ref={editorRef} session={session} hidden={!endCall} repo={repo}/>
+        { 
+          session && session.user && (
+          <Editor ref={editorRef} session={session} hidden={!endCall} repo={repo}/>
+          )
+        }
         {
             session && session.user ?
                 !repo && (<EmptyProject setRepo={setRepo}/>)
