@@ -13,6 +13,8 @@ import { Field, FieldGroup } from "../ui/field";
 import { Label } from "../ui/label";
 import { Color } from "react-aria-components";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select";
+import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import { Badge } from "../ui/badge";
 
 const createLink = (url: string, params: any) =>{
     const linkParameters = Object.keys(params).map((param, index) => `${index === 0 ? "?" : "&"}${param}=${params[param]}`).join("");
@@ -132,14 +134,29 @@ const ParamDialog = ({children, module, editorRef, user}: {children: ReactNode, 
 
 const EditableModule = ({module, editorRef, user}: {module: Module, editorRef?: RefObject<ShadcnTemplateRef | null>, user: User}) =>{
     return(
-        <div>
-            <img src={`${module.link}?username=FlizzerMDX`} className="select-none"/>
-            <ParamDialog editorRef={editorRef} module={module} user={user}>
-                <Button variant="outline">
-                    Add
-                </Button>
-            </ParamDialog>
-        </div>
+        <Card className="relative mx-auto w-full max-w-sm pt-0">
+            <img
+                src={`${module.link}?username=FlizzerMDX`}
+                alt="Event cover"
+                className="relative z-20 aspect-video w-full select-none"
+            />
+            <CardHeader>
+                <CardAction>
+                {
+                    module.tags.map((tag) => <Badge key={tag} variant="secondary">{tag}</Badge>)
+                }
+                </CardAction>
+                <CardTitle>{module.name}</CardTitle>
+                <CardDescription>
+                    {module.description}
+                </CardDescription>
+            </CardHeader>
+            <CardFooter>
+                <ParamDialog editorRef={editorRef} module={module} user={user}>
+                    <Button className="w-full">Add Element</Button>
+                </ParamDialog>
+            </CardFooter>
+        </Card>
     )
 }
 

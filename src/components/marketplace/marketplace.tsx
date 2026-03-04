@@ -8,6 +8,8 @@ import { Button } from "../ui/button";
 import { ShadcnTemplateRef } from "../editor";
 import { renderToString } from 'react-dom/server'
 import { Input } from "../ui/input";
+import { cn } from "@/lib/utils";
+import { Separator } from "../ui/separator";
 
 // const MarketPlace = ({...props}: React.ComponentProps<"div">) =>{
 // const MarketPlace = ({editorRef, ...props}: {editorRef?: RefObject<ShadcnTemplateRef | null>, props: React.ComponentProps<"div"> }) =>{
@@ -27,15 +29,15 @@ const MarketPlace = ({editorRef, className}: {editorRef?: RefObject<ShadcnTempla
 
     return(
         // <div {...props}>
-        <div className={className}>
-            MarketPlace - Coming Soon
+        <div className={cn("ml-2", className)}>
+            <span>
+                MarketPlace
+            </span>
+            <Separator/>
             {modules?.modules?.map(
                 (module) => {
                     return(
                         <div key={module.key}>
-                            <span>
-                                {module?.name}
-                            </span>
                             <EditableModule editorRef={editorRef} module={module} user={user}/>
                         </div>
                     )
