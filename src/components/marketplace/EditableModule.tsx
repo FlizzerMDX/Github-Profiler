@@ -136,7 +136,7 @@ const EditableModule = ({module, editorRef, user}: {module: Module, editorRef?: 
     return(
         <Card className="relative mx-auto w-full max-w-sm pt-0">
             <img
-                src={`${module.link}?username=FlizzerMDX`}
+                src={`${module.link}?username=${user.username}`}
                 alt="Event cover"
                 className="relative z-20 aspect-video w-full select-none"
             />
