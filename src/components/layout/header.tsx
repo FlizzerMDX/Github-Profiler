@@ -15,10 +15,9 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 
-import { MoonarrIconDark, MoonarrIconLight } from "@/services/logo";
+import { MoonarrIconDark } from "@/services/logo";
 
 const Header = ({ user }: {user: User }) =>{
     return (

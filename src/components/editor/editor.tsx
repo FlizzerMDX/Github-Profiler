@@ -1,23 +1,23 @@
 "use client";
 
-import { RefObject, useEffect, useState } from 'react';
+import { RefObject, useEffect } from 'react';
 import { ShadcnTemplate, ShadcnTemplateRef } from './index'
 import { getReadmeContent } from '@/services/github';
 import { EmojiPicker } from './emoji-picker';
 import { EditorSkeleton } from './editor-skeleton';
-import { Button } from '../ui/button';
 import MarketPlace from '../marketplace/marketplace';
+import { Session, User } from '@/types';
 
-export function Editor({markdown, ref, session, hidden, repo}: {markdown?: string, ref?: RefObject<ShadcnTemplateRef | null>, session?: any, hidden?: boolean, repo?: object | undefined}) {
+export function Editor({markdown, ref, session, hidden, repo}: {markdown?: string, ref?: RefObject<ShadcnTemplateRef | null>, session?: Session, hidden?: boolean, repo?: object | undefined}) {
   useEffect(()=>{
     const call = async() =>{
-      const data = await getReadmeContent(session?.user?.username, session?.accessToken);
+      const data = await getReadmeContent((session?.user as User)?.username, session?.accessToken || "");
       const md = data?.success ? data?.content : "";
       await ref?.current?.injectMarkdown(md);
       await new Promise(resolve => setTimeout(resolve, 50));
     }
     call();
-  }, [repo])
+  }, [repo, ref, session?.accessToken, session?.user])
 
   return (
     <>

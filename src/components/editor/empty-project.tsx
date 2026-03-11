@@ -11,9 +11,8 @@ import {
 } from "@/components/ui/empty"
 import { Session, User } from "@/types";
 import { IconFolderCode } from "@tabler/icons-react"
-import { ArrowUpRightIcon } from "lucide-react"
 import { Input } from "@/components/ui/input";
-import { ChangeEvent, Dispatch, MouseEvent, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { toast } from "sonner";
 import { createGitHubProject } from "@/services/github";
 import { OctokitResponse } from "@octokit/types";
@@ -21,24 +20,23 @@ import { useSession } from "next-auth/react";
 
 export function EmptyProject({setRepo}: {setRepo: Dispatch<SetStateAction<object>>}) {
   const { data: session } = useSession();
-  const [user, setUser] = useState<User>(session?.user as User);
-  const [username, setUsername] = useState<string>(user.username);
-  const [token, setToken] = useState<string>((session as Session)?.accessToken);
   const fileUploaderRef = useRef<HTMLInputElement>(null);
   const [isPushing, setIsPushing] = useState<boolean>(false);
 
   const handleProjectCreation = (markdown?: string) =>{
     setIsPushing(true);
-    toast.promise<{ data: OctokitResponse<any, number> | undefined }>(
+    toast.promise<{ data: OctokitResponse<object, number> | undefined }>(
       () =>
         new Promise(async(resolve) =>{
+          const user = session?.user as User;
+          const token = (session as Session)?.accessToken;
           const data = await createGitHubProject({markdown, user, token});
           resolve(data?.data);
         }),
       {
         loading: "Loading...",
         success: (data) => {setIsPushing(false); setRepo(data); return markdown ? "File has been imported" : "Empty project created"},
-        error: (data) => {setIsPushing(false); return `Error`},
+        error: () => {setIsPushing(false); return `Error`},
       }
     )
   };

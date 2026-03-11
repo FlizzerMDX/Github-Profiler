@@ -35,10 +35,10 @@ import {
 import { Input } from "../ui/textfield"
 
 function EyeDropperButton() {
-  let state = React.useContext(ColorPickerStateContext)!
+  const state = React.useContext(ColorPickerStateContext)!
 
   // Check browser support.
-  // @ts-expect-error
+  // @ts-expect-error from packages - to avoid error if browser doesn't support EyeDropper
   if (typeof EyeDropper === "undefined") {
     return null
   }
@@ -49,7 +49,7 @@ function EyeDropperButton() {
       size="icon"
       variant="outline"
       onPress={() => {
-        // @ts-expect-error
+        // @ts-expect-error from packages - to avoid error if browser doesn't support EyeDropper
         new EyeDropper()
           .open()
           .then((result: { sRGBHex: string }) =>
@@ -63,7 +63,7 @@ function EyeDropperButton() {
 }
 
 export function ComponantColorPicker({color, setColor}: {color: Color | undefined, setColor: Dispatch<SetStateAction<Color | undefined>>}) {
-  let [space, setSpace] = useState<string>("hex")
+  const [space, setSpace] = useState<string>("hex")
 
   return (
     <ColorPicker value={color} onChange={setColor}>
@@ -115,7 +115,7 @@ export function ComponantColorPicker({color, setColor}: {color: Color | undefine
                 </SelectListBox>
               </SelectPopover>
             </Select>
-            <div className="w-[192px] flex flex-row gap-1">
+            <div className="w-48 flex flex-row gap-1">
               {
                 space != "hex" ? 
                   getColorChannels(space as ColorSpace).map((channel) => (
@@ -124,13 +124,13 @@ export function ComponantColorPicker({color, setColor}: {color: Color | undefine
                     </ColorField>
                   ))
                   :
-                    <ColorField colorSpace="hsb" className="w-[192px]">
+                    <ColorField colorSpace="hsb" className="w-48">
                       <Input className="" />
                     </ColorField>
               }
             </div>
 
-            <ColorSwatchPicker className="w-[192px]">
+            <ColorSwatchPicker className="w-48">
               <ColorSwatchPickerItem color="#F00">
                 <ColorSwatch />
               </ColorSwatchPickerItem>

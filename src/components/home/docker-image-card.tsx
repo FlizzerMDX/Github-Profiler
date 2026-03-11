@@ -5,8 +5,9 @@ import { IconBrandDocker, IconBrandGithub } from "@tabler/icons-react";
 import { GitPullRequest, Star } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { useRef } from "react";
+import { Image as DockerImage } from "@/types/docker";
 
-export const DockerImageCard = ({ data, type }: { data: any, type: "Docker" | "GitHub" }) =>{
+export const DockerImageCard = ({ data, type }: { data: DockerImage, type: "Docker" | "GitHub" }) =>{
     const linkRef = useRef<HTMLAnchorElement | null>(null);
     return(
         <Card className="mx-auto w-full max-w-sm">

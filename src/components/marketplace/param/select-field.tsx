@@ -1,10 +1,15 @@
 import { Field } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Param } from "@/types/modules";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export const SelectField = ({param, setSelectValue}: {param: Param, setSelectValue: Dispatch<SetStateAction<string | undefined>>}) =>{
+export const SelectField = ({param, params, setParams}: {param: Param, params: Record<string, string | number>, setParams: Dispatch<SetStateAction<Record<string, string | number>>>}) =>{
+    const [selectValue, setSelectValue] = useState<string>(); //params[param.key]
+    useEffect(() =>{
+        setParams({...params, [param.key] : selectValue as string});
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectValue]);
     return(
         <Field>
             <Label htmlFor={`${param.name}-1`} className="capitalize">{param.name}</Label>

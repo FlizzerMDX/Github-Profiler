@@ -2,7 +2,7 @@
 
 import { Octokit } from "@octokit/core";
 
-import { GithubApiCallSetting as Setting, GithubApiCallReturn as Return, User } from "@/types/index";
+import { GithubApiCallSetting as Setting, User } from "@/types/index";
 
 export const getReadmeRepo = async(user: string, token: string) =>{
     const usr = user;
@@ -113,7 +113,7 @@ export const pushReadmeToGithub = async({markdown, user, token, message}: {markd
             owner: usr,
             repo: repo,
             path: 'README.md',
-            message: "[chore] edit markdown",
+            message: message || "[chore] edit markdown",
             committer: {
                 name: user.name,
                 email: user.email,
@@ -129,7 +129,6 @@ export const pushReadmeToGithub = async({markdown, user, token, message}: {markd
 
 export const createGitHubProject = async({markdown, user, token}: {markdown?: string, user: User, token: string}) =>{
     const username = user.username
-    const usr = username;
     const repo = username;
     const settings = {
         method: "POST",
@@ -141,14 +140,10 @@ export const createGitHubProject = async({markdown, user, token}: {markdown?: st
         }
     }
 
-    console.log("markdown")
-    console.log(markdown)
-    console.log("markdown")
-
     const data = await githubApiCall({ token, settings });
     
     if (markdown){
-        const dataPushed = await initReadmeToGithub({markdown, user, token});
+        await initReadmeToGithub({markdown, user, token});
     }
 
     return data;

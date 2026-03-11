@@ -21,41 +21,40 @@ import {
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { OctokitResponse } from "@octokit/types";
+import { EditorCommands } from "./ShadcnTemplate"
 
-export function SaveButton({editorRef}: {editorRef: any}) {
+export function SaveButton({editorRef}: {editorRef: EditorCommands}) {
 
   const { data: session } = useSession();
-  const [user, setUser] = useState<User>(session?.user as User);
-  const [username, setUsername] = useState<string>(user?.username);
-  const [token, setToken] = useState<string>((session as Session)?.accessToken);
   const [isPushing, setIsPushing] = useState<boolean>(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
   const [readMe, setReadMe] = useState<{ success: boolean; content: string; }>();
 
   useEffect(() =>{
     const call = async() =>{
-      setReadMe(await getReadmeContent(user?.username, token));
+      setReadMe(await getReadmeContent((session?.user as User)?.username, (session as Session)?.accessToken));
     };
     call();
-  }, []);
+  }, [session]);
 
   return (
     <ButtonGroup>
-      <Button variant="outline" disabled={isPushing || readMe?.content.replaceAll("\n", "") === editorRef.exportToMarkdown().replaceAll("\n", "")} onClick={() => {
+      <Button variant="outline" disabled={isPushing || readMe?.content.trim() === editorRef.exportToMarkdown().trim()} onClick={() => {
           if (readMe?.content.replaceAll("\n", "") === editorRef.exportToMarkdown().replaceAll("\n", "")){
             toast.info("There is no changes to push");
             return;
           }
           setIsPushing(true);
-          toast.promise<{ data: OctokitResponse<any, number> | undefined }>(
+          toast.promise<{ data: OctokitResponse<object, number> | undefined }>(
             () =>
               new Promise(async(resolve) =>{
+                const user = session?.user as User;
+                const token = (session as Session)?.accessToken;
                 const data = await pushReadmeToGithub({markdown: editorRef.exportToMarkdown(), user, token});
                 resolve(data?.data);
               }),
             {
               loading: "Loading...",
-              success: (data) => {setIsPushing(false); return `Changes has been pushed`},
+              success: () => {setIsPushing(false); return `Changes has been pushed`},
               error: "Error",
             }
           )
@@ -71,7 +70,7 @@ export function SaveButton({editorRef}: {editorRef: any}) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-44">
           <DropdownMenuGroup>
-            <DropdownMenuItem onClick={() => {downloadEditingFile(editorRef, user)}}>
+            <DropdownMenuItem onClick={() => {downloadEditingFile(editorRef, session?.user as User)}}>
               <DownloadIcon />
               Download File
             </DropdownMenuItem>

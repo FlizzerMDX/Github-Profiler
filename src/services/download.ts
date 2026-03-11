@@ -1,6 +1,7 @@
+import { EditorCommands } from "@/components/editor/ShadcnTemplate";
 import { User } from "@/types";
 
-export const downloadEditingFile = async(editorRef: any, user: User) =>{
+export const downloadEditingFile = async(editorRef: EditorCommands, user: User) =>{
     const a = document.createElement("a");
     document.body.appendChild(a);
     a.style = "display: none";

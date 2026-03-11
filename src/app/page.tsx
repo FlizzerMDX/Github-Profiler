@@ -1,27 +1,23 @@
 "use client";
-import { DockerImageCard } from "@/components/home/docker-image-card";
-import { getDockerhubStats } from "@/services/dockerhub";
-import { Session } from "@/types";
-import { Star } from "lucide-react";
-import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react";
-import { OctokitResponse } from "@octokit/types";
+// import { DockerImageCard } from "@/components/home/docker-image-card";
+// import { getDockerhubStats } from "@/services/dockerhub";
+// import { Session } from "@/types";
+// import { Star } from "lucide-react";
+// import { useEffect, useState } from "react";
 import { AdventagesCard } from "@/components/home/advantages-card";
 
 export default function Home() {
-  const { data: session } = useSession();
-  const [dockerhubStats, setDockerhubStats] = useState();
+  // const [dockerhubStats, setDockerhubStats] = useState();
 
-  const call = async() => {
-    const userSession = session as Session;
+  // const call = async() => {
 
-    const dockerStats = await getDockerhubStats();
-    setDockerhubStats(dockerStats);
-  }
+  //   const dockerStats = await getDockerhubStats();
+  //   setDockerhubStats(dockerStats);
+  // }
 
-  useEffect(() => {
-    call();
-  }, []);
+  // useEffect(() => {
+  //   call();
+  // }, []);
 
   return (
     <div>
@@ -35,7 +31,7 @@ export default function Home() {
       </div>
       <p className="text-2xl w-300 text-center">
         Moonarr, is a solution to create, modify and improve your GitHub Profile !
-        To modify your GitHub Profile, Moonarr Create a Repository with your username as repository name, and a README.md (if it doesn't exists already). 
+        To modify your GitHub Profile, Moonarr Create a Repository with your username as repository name, and a README.md (if it doesn&apos;t exists already). 
       </p>
       {/* <div className="flex">
         <Star className="hover:text-yellow-300"/>
